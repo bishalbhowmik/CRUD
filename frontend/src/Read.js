@@ -1,0 +1,37 @@
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { Link, useParams } from 'react-router-dom';
+
+const Read = () => {
+
+    const { id } = useParams();
+    const [student, setStudent] = useState([]);
+
+    useEffect(() => {
+        axios.get('http://localhost:8081/read/' + id)
+            .then(res => {
+                setStudent(res.data[0]);
+                console.log(res);
+            })
+            .catch(err => console.log(err))
+    }, [])
+    return (
+        <div className='d-flex vh-100 bg-info justify-content-center align-items-center'>
+            <div className='w-50 bg-white rounded p-3'>
+
+                <div className='p-2'>
+                    <h2>Student Details</h2>
+                    <h2>{student.ID}</h2>
+                    <h2>{student.Name}</h2>
+                    <h2>{student.Email}</h2>
+                </div>
+
+                <Link to='/' className='btn btn-primary me-2'>Back</Link>
+                <button className='btn btn-success'>Edit</button>
+
+            </div>
+        </div>
+    );
+};
+
+export default Read;
